@@ -9,7 +9,6 @@ import numpy as np
 import scipy.stats as stats
 from math import *
 import scipy as sp
-import statsmodels.formula.api as smf
 import statsmodels.api as sm
 import pylab as py
 
@@ -34,7 +33,7 @@ sns.distplot(rand_p, bins=10, hist=True, kde=False, rug=False)
 # 3번 (a)
 a = stats.norm.ppf(loc=10, scale=3, q=0.6)
 a
-# - 그래프
+# - 그래프 그려보기
 x = np.linspace(0, 20, 100)
 y = stats.norm.pdf(x, 10, 3)
 colored = np.linspace(a, 20, 100)
