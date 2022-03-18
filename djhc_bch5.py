@@ -1,4 +1,4 @@
-# DESCRIPTION : 5장 예제에 Wine Quality Data Set 적용, 연습문제
+# DESCRIPTION : 5장 예제, 연습문제
 # -*- coding: utf-8 -*-
 
 

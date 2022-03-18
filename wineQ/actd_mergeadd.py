@@ -10,19 +10,14 @@ import numpy as np
 class MergeManager:
     def findmerged(self, merged):
         mergedfile = glob.glob("./**/" + merged, recursive=True)
-        print("[1] ", mergedfile, ">>>>>>>", len(mergedfile))
         winedf = pd.DataFrame([])
         if len(mergedfile) == 1:
             winedf = pd.read_csv(mergedfile[0])
-            print("[5] ")
             return winedf
         elif len(mergedfile) < 1:
-            self.mergeandcate()
-            print("[3] ")
-        print("[4] ")
+            self.mergeandcate(merged)
 
-    def mergeandcate(self):
-        print(">>>>>>>----->")
+    def mergeandcate(self, merged):
         wineAll = pd.DataFrame([])
         # data폴더 내의 모든 csv 파일 목록 불러오기
         csvList = glob.glob("./cminydata/*.csv")
@@ -37,8 +32,7 @@ class MergeManager:
             df = pd.read_csv(each_csv, sep=';')
             df['vinoCate'] = vinoCate
             wineAll = pd.concat([wineAll, df])
-            # csv 파일로 저장
+        # 인덱스 새로 붙이고 csv 파일로 저장
+        wineAll.insert(0, 'idx', range(0, len(wineAll)))
         wineAll.to_csv("./cminydata/wineAll.csv")
-        print("[2]")
-        df2 = pd.read_csv("./cminydata/wineAll.csv")
-        return df2
+        self.findmerged(merged)
