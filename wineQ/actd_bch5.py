@@ -1,4 +1,4 @@
-# DESCRIPTION : Wine Quality Data Set으로 5장 예제문제풀기
+# DESCRIPTION : Wine Quality Data Set으로 5장 예제풀기
 # -*- coding: utf-8 -*-
 
 import os
