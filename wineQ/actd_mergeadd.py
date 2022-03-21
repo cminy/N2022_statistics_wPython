@@ -10,12 +10,14 @@ import numpy as np
 class MergeManager:
     def findmerged(self, merged):
         mergedfile = glob.glob("./**/" + merged, recursive=True)
-        winedf = pd.DataFrame([])
+        df = pd.DataFrame([])
         if len(mergedfile) == 1:
-            winedf = pd.read_csv(mergedfile[0])
-            return winedf
+            df = pd.read_csv(mergedfile[0])
+            return df
         elif len(mergedfile) < 1:
             self.mergeandcate(merged)
+            df = pd.read_csv("./cminydata/" + merged)
+            return df
 
     def mergeandcate(self, merged):
         wineAll = pd.DataFrame([])
@@ -29,10 +31,11 @@ class MergeManager:
                 vinoCate = "red"
             elif filename.endswith('white.csv'):
                 vinoCate = "white"
-            df = pd.read_csv(each_csv, sep=';')
-            df['vinoCate'] = vinoCate
-            wineAll = pd.concat([wineAll, df])
-        # 인덱스 새로 붙이고 csv 파일로 저장
-        wineAll.insert(0, 'idx', range(0, len(wineAll)))
-        wineAll.to_csv("./cminydata/wineAll.csv")
-        self.findmerged(merged)
+            df_temp = pd.read_csv(each_csv, sep=';')
+            df_temp = df_temp.reset_index(drop=True)
+            df_temp['vinoCate'] = vinoCate
+            wineAll = pd.concat([wineAll, df_temp])
+        # csv 파일로 저장
+        # wineAll.insert(0, 'idx', range(0, len(wineAll)))
+        # wineAll = wineAll.reset_index(drop=True, inplace=True)
+        wineAll.to_csv("./cminydata/" + merged)
