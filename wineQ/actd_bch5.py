@@ -137,7 +137,8 @@ ax1.axvline(x=y.mean(), color='b', label='Average',
 n = len(y)
 m = np.mean(y)  # - scipy 2.0.0에는 mean, std 등 없어짐
 sd = np.std(y, ddof=1)
-cri = scipy.stats.t.ppf(df=n - 1, q=0.975)  # 신뢰구간 95%니까 0.025씩
+cri = scipy.stats.norm.ppf(loc=0, scale=1, q=0.975)
+# cri = scipy.stats.t.ppf(df=n - 1, q=0.975)  # 신뢰구간 95%니까 0.025씩
 lower = m - cri * sd / np.sqrt(n)
 upper = m + cri * sd / np.sqrt(n)
 
@@ -145,11 +146,11 @@ fig, ax = plt.subplots(nrows=1, ncols=1, sharey=False, figsize=(7, 4))
 ax.set(title='5.2.7 (a) CI 95%')
 sns.distplot(y, bins=10)
 ax.axvline(x=lower, label='Lower Limit', linewidth=1, color='orange')
-plt.text(lower - 2, 0.5,
-         'Lower Limit:{:.2f}'.format(lower), fontsize=12, color='orange')
+plt.text(lower - 0.85, 0.4,
+         '{:.2f}'.format(lower), fontsize=12, color='orange')
 ax.axvline(x=upper, label='Upper Limit', linewidth=1, color='orange')
-plt.text(upper + 0.3, 0.5,
-         'Upper Limit:{:.2f}'.format(upper), fontsize=12, color='orange')
+plt.text(upper + 0.2, 0.4,
+         '{:.2f}'.format(upper), fontsize=12, color='orange')
 
 
 # 예제 5.2.7(d)
