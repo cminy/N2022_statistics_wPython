@@ -21,12 +21,12 @@ pd.crosstab(index=q1_df['gender'], columns=q1_df['fracture'])
 # - (b)(c) blood 평균
 q1_df.groupby('gender').mean().loc[:, 'blood']
 q1_df.groupby('fracture').mean().loc[:, 'blood']
-
+q1_df.groupby('gender').mean()['blood']
 # - (d)(e) 상관계수
 age = q1_df['age']
 blood = q1_df['blood']
 
-scipy.stats.pearsonr(age, blood)
+scipy.stats.pearsonr(age, blood)[0]
 scipy.stats.spearmanr(age, blood)
 
 # - (f)(g) 박스차트
@@ -42,7 +42,7 @@ sns.boxplot(x=gender, y=blood)
 plt.show()
 
 # - (h)(i) 산점도
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(20, 10))
 plt.subplot(2, 1, 1)
 sns.scatterplot(x=age, y=blood, hue=fracture, style=fracture)
 plt.subplot(2, 1, 2)
@@ -68,15 +68,16 @@ pd.pivot_table(data=q2_df, values='rate', aggfunc='sum',
 q2_bar = pd.pivot_table(data=q2_df, values='freq',
                         index='candidate', columns='ism')
 q2_bar.plot(kind='bar', stacked=True)
+q2_bar.plot(kind='bar', stacked=False)
 
 # 3번
 x = [147, 158, 131, 142, 180]
 y = [122, 128, 125, 123, 115]
 
 # - (a)(b)
-scipy.stats.pearsonr(x, y)[0]
-scipy.stats.spearmanr(x, y)[0]
-# >>> 약한 음의 상관관계
+scipy.stats.pearsonr(x, y)
+scipy.stats.spearmanr(x, y)
+# >>> 상관계수는 약한 음의 상관관계를 나타내지만, pvalue가 높아서 유의하지않음
 
 # - (c)
 plt.figure(figsize=(12, 8))
@@ -130,21 +131,24 @@ rate_cross = pd.pivot_table(
 rate_cross
 
 rate_cross.plot(kind='bar', stacked=True)
+rate_cross.plot(kind='bar')
 
 
 # 5번
 q5_df = pd.read_csv('./cminydata/table6.7_diabetes.csv')
 q5_df.head(3)
 # - (a)(b)
-scipy.stats.pearsonr(q5_df['Y1'], q5_df['Y2'])[0]
-scipy.stats.pearsonr(q5_df['X1'], q5_df['Y2'])[0]
+scipy.stats.pearsonr(q5_df['Y1'], q5_df['Y2'])
+scipy.stats.pearsonr(q5_df['X1'], q5_df['Y2'])
 # >>> 상관관계 없네..
 # - (c) 유의성 검정
 scipy.stats.pearsonr(q5_df['X1'], q5_df['Y2'])[1]
 # >>> p-value가 0.948이니까 귀무가설(H0) 기각 못함. >>> 상관계수 0이 아니라고 할 수 없다.
 
 # - (d)
+# - 범주화, binarize
 q5_df['count'] = q5_df['Y2'].apply(lambda x: 1 if x >= 90 else 0)
+q5_df.head(3)
 q5_arr = [q5_df['count'].sum(), q5_df['Y2'].count() - q5_df['count'].sum()]
 q5_arr
 
@@ -162,12 +166,14 @@ plt.show()
 q5_df.columns
 c_arr = q5_df.columns[1:6]
 c_arr
+
 # - heatmap으로 알아보기
 plt.figure(figsize=(10, 10))
-sns.heatmap(q5_df[c_arr].corr(), cmap='RdYlBu_r', annot=True, square=True)
+sns.heatmap(q5_df[c_arr].corr(), cmap='RdYlBu_r', annot=True,
+            square=True, vmin=-1, vmax=1, center=0)
 # >>> X2, X3 상관계쑤가 제일 높음 (0.28)
 # - 다른방법
-df = q5_df[c_arr].corr()
+df = abs(q5_df[c_arr].corr())
 df
 df.describe()
 df2 = df.replace(1.000000, 0)
@@ -177,9 +183,9 @@ df2.describe()
 # 6번
 elder = [86, 71, 77, 68, 91, 72, 60]
 younger = [88, 77, 76, 64, 96, 72, 65]
-print("- pearson:", scipy.stats.pearsonr(elder, younger)[0])
-print("- spearman:", scipy.stats.spearmanr(elder, younger)[0])
-print("- kendall:", scipy.stats.kendalltau(elder, younger)[0])
+print("- pearson:", scipy.stats.pearsonr(elder, younger))
+print("- spearman:", scipy.stats.spearmanr(elder, younger))
+print("- kendall:", scipy.stats.kendalltau(elder, younger))
 # >>> 상관관계가 높은편.
 
 # FIN.
