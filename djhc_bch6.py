@@ -3,7 +3,6 @@
 
 import pandas as pd
 import numpy as np
-from wineQ.actd_mergeadd import MergeManager
 import matplotlib
 from matplotlib import pyplot as plt
 import seaborn as sns
@@ -11,9 +10,6 @@ import scipy
 from warnings import simplefilter
 simplefilter(action='ignore', category=FutureWarning)
 
-
-# # csv파일로 저장된 data set 불러오기
-# df = MergeManager().findmerged('wineAll.csv')
 
 # 1번
 q1_df = pd.read_csv("./cminydata/table6.5_fracture.csv")
@@ -181,9 +177,9 @@ df2.describe()
 # 6번
 elder = [86, 71, 77, 68, 91, 72, 60]
 younger = [88, 77, 76, 64, 96, 72, 65]
-print("pearson: ", scipy.stats.pearsonr(elder, younger)[0])
-print("spearman: ", scipy.stats.spearmanr(elder, younger)[0])
-print("kendall: ", scipy.stats.kendalltau(elder, younger)[0])
+print("- pearson:", scipy.stats.pearsonr(elder, younger)[0])
+print("- spearman:", scipy.stats.spearmanr(elder, younger)[0])
+print("- kendall:", scipy.stats.kendalltau(elder, younger)[0])
 # >>> 상관관계가 높은편.
 
 # FIN.
