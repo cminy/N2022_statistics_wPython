@@ -166,9 +166,17 @@ plt.show()
 q5_df.columns
 c_arr = q5_df.columns[1:6]
 c_arr
+# - heatmap으로 알아보기
 plt.figure(figsize=(10, 10))
 sns.heatmap(q5_df[c_arr].corr(), cmap='RdYlBu_r', annot=True, square=True)
 # >>> X2, X3 상관계쑤가 제일 높음 (0.28)
+# - 다른방법
+df = q5_df[c_arr].corr()
+df
+df.describe()
+df2 = df.replace(1.000000, 0)
+df2
+df2.describe()
 
 # 6번
 elder = [86, 71, 77, 68, 91, 72, 60]
