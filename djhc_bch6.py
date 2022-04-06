@@ -89,6 +89,28 @@ plt.title('wife')
 sns.boxplot(y)
 plt.show()
 
+# - husband와 wife의 박스그림을 한 차트에 보여주기
+plt.figure(figsize=(12, 8))
+sns.boxplot(x, width=0.1)
+sns.boxplot(y, width=0.3, color='orange')
+plt.show()
+
+# - 박스들을 한줄이 아닌 두개의 줄에 나누어 표시하려면?
+M = np.tile("husband", len(x))
+F = np.tile("wife", len(y))
+type(M)
+
+q3_df = pd.DataFrame({
+    'sex': np.append(M, F),
+    'score': x + y
+})
+
+q3_df
+
+plt.figure(figsize=(8, 10))
+sns.boxplot(data=q3_df, x='sex', y='score')
+plt.show()
+
 
 # 4번
 freq = [40, 30, 35, 20, 20, 30, 45, 40]
@@ -167,18 +189,19 @@ q5_df.columns
 c_arr = q5_df.columns[1:6]
 c_arr
 
-# - heatmap으로 알아보기
+# - corr()와 heatmap으로 알아보기
 plt.figure(figsize=(10, 10))
 sns.heatmap(q5_df[c_arr].corr(), cmap='RdYlBu_r', annot=True,
             square=True, vmin=-1, vmax=1, center=0)
-# >>> X2, X3 상관계쑤가 제일 높음 (0.28)
-# - 다른방법
+# >>> X2, X3 상관계쑤가 제일 높음 (0.279)
+# - 다른방법으로 구해보기 ---
 df = abs(q5_df[c_arr].corr())
-df
-df.describe()
 df2 = df.replace(1.000000, 0)
-df2
-df2.describe()
+arr_a = df2.max()
+arr_a.max()
+arr_a.idxmax()
+df2.idxmax()[arr_a.idxmax()]
+# >>> X2와 X3 상관계수가 0.279로 제일 크다
 
 # 6번
 elder = [86, 71, 77, 68, 91, 72, 60]
