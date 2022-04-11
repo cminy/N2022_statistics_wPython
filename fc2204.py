@@ -35,8 +35,16 @@ qr03 = "select case when continent = 'Asia' then 1 end as '아시아', code, nam
 an03 = pd.read_sql(qr03, db)
 an03.head()
 
+qr03 = """select continent = 'Asia'as is_asia, code, name, continent from country;"""
+an03 = pd.read_sql(qr03, db)
+an03.head()
+
 # world 데이터 베이스에서 국가코드, 국가이름, 독립년도, 독립년도가 1900년 이후에 독립했으면 1(True)을 출력하는 쿼리를 작성하세요.
 qr04 = "select code, name, indepyear, case when indepyear >= 1900 then 1 end as '1900년 이후' from country;"
+an04 = pd.read_sql(qr04, db)
+an04.head()
+
+qr04 = "select code, name, indepyear, indepyear >= 1900 as '1900년 이후' from country;"
 an04 = pd.read_sql(qr04, db)
 an04.head()
 
