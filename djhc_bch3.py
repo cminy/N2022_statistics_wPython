@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
+from matplotlib import font_manager, rc
 import pandas as pd
 from pandas.core.groupby.groupby import DataError
 import math as m
@@ -57,4 +58,22 @@ st.T.plot.bar(rot=0)
 plt.title("variable mean of species")
 plt.xlabel("variables")
 plt.ylabel("mean")
+plt.show()
+
+
+# 한글 폰트 체크
+font_name = font_manager.FontProperties(fname='ONE Mobile Bold.ttf').get_name()
+plt.rc('font', family=font_name)
+# 5번
+x = np.linspace(-3, 3, 100)
+y = (1 / np.sqrt(2 * np.pi)) * np.exp(-x**2 / 2)
+plt.figure(figsize=(8, 2))
+plt.plot(x, y)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.grid()
+plt.title("스탠다드노멀")
+plt.legend(["N(0,1)"])
+y2 = np.exp(-np.abs(x))
+plt.plot(x, y2, color="orange")
 plt.show()
